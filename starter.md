@@ -13,11 +13,11 @@ This is the backend for the Flask React project.
 2. Install dependencies
 
    ```bash
-
+   pipenv install
    ```
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
+3. Create a **.env** file based on the example with proper settings for yourdevelopment environment
+
 4. Setup your PostgreSQL user, password and database and make sure it matches your **.env** file
 
 5. Get into your pipenv, migrate your database, seed your database, and run your flask app
