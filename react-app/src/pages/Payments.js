@@ -35,7 +35,7 @@ export default function Payments() {
   const [billingInfo, setBillingInfo] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
 
-  // redirect to account page if try to access payments page while already subscribed (or if while in production)
+  // redirect to account page if try to access payments page while already subscribed (or if while in production (change that later))
   useEffect(() => {
     // but don't redirect if they are subscribed and trying to update their payment
     if (sessionUser.subType && location.pathname.startsWith('/payments/update/')) {
