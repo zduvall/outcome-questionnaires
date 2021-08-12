@@ -31,22 +31,25 @@ export default function Payments() {
 
   const { subPageId } = useParams('subPageId');
 
-  const [paymentURL, setPaymentURL] = useState('/payments/');
+  // set to either '/payments/update/' or '/payments/' based on current url
+  const paymentURL = location.pathname.slice(
+    0,
+    location.pathname.lastIndexOf('/') + 1
+  );
+
   const [billingInfo, setBillingInfo] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
 
   // redirect to account page if try to access payments page while already subscribed (or if while in production (change that later))
   useEffect(() => {
     // but don't redirect if they are subscribed and trying to update their payment
-    if (
-      sessionUser.subType &&
-      location.pathname.startsWith('/payments/update/')
-    ) {
-      setPaymentURL('/payments/update/');
-    } else if (sessionUser.subType || process.env.NODE_ENV === 'production') {
+    if (sessionUser.subType && paymentURL === '/payments/') {
+      history.push('/payments/update/1');
+    }
+    if (process.env.NODE_ENV === 'production') {
       history.push('/account');
     }
-  }, [sessionUser, location, history]);
+  }, [sessionUser, paymentURL, history]);
 
   // --------------------------------------------------------------------------------------------
   // next thing to do is make sure that when I'm on the route 'payments/update/:subPageId" I'm not
@@ -93,12 +96,11 @@ export default function Payments() {
       }}
     >
       <div className='site__page'>
-        {paymentURL === '/payments/' && (
-          <h1 className='primary-title'>Premium Subscription</h1>
-        )}
-        {paymentURL === '/payments/update/' && (
-          <h1 className='primary-title'>Update Billing</h1>
-        )}
+        <h1 className='primary-title'>
+          {paymentURL === '/payments/update/'
+            ? 'Update Billing'
+            : 'Premium Subscription'}
+        </h1>
         {subPageId === '1' && <Payment1Lazy />}
         {subPageId === '2' && <Payment2Lazy />}
         {subPageId === '3' && <Payment3Lazy />}
