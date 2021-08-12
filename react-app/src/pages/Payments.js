@@ -40,16 +40,22 @@ export default function Payments() {
   const [billingInfo, setBillingInfo] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
 
-  // redirect to account page if try to access payments page while already subscribed (or if while in production (change that later))
   useEffect(() => {
-    // but don't redirect if they are subscribed and trying to update their payment
+    // If the number is missing from '/payments/update/', it will think we're on
+    // just '/payments/' and subPageId will be set to the 'update'. This also
+    // if something other than a number is in url after '/payments/update/'.
+    if (typeof subPageId !== 'number') {
+      history.push(`${paymentURL}1`);
+    }
+    // redirect if already have subscription and are on wrong url
     if (sessionUser.subType && paymentURL === '/payments/') {
       history.push('/payments/update/1');
     }
+    // redirect to account page if in production (change that later)
     if (process.env.NODE_ENV === 'production') {
       history.push('/account');
     }
-  }, [sessionUser, paymentURL, history]);
+  }, [sessionUser, paymentURL, history, subPageId]);
 
   // --------------------------------------------------------------------------------------------
   // next thing to do is make sure that when I'm on the route 'payments/update/:subPageId" I'm not
