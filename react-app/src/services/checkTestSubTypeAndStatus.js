@@ -3,6 +3,7 @@ import { freeTests } from '../assets';
 
 export default function checkTestSubTypeAndStatus(code, sessionUser) {
   const { subStatus, lastBillDate } = sessionUser.customer;
+  // note, I haven't actually implemented any logic to have trial subscriptions... probably won't
   const activeOrTrial = ['active', 'trialing'].includes(subStatus);
 
   // when they have an active/trial subscription or it's a free test, just return true always
