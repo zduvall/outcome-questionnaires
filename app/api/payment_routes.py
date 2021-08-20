@@ -8,6 +8,7 @@ from .auth_routes import validation_errors_to_error_messages
 
 from app.forms import NewCustomerForm
 from app.models import Customer, User, db
+from app.config import Config
 
 # Set your secret key. Remember to switch to your live secret key in production.
 # See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -126,15 +127,8 @@ def add_payment_info():
             else stripe.Subscription.retrieve(current_user.customer.stripeSubId)
         )
 
-        # I set this up in case I ever had more than one product, in order to
-        # dynamically store the subscription type. A subType of 1 is a basic
-        # monthly subscription and 0 (default) is free/none.
-        # Make sure to update this in addition to priceID in Payment3.js if
-        # change subscription price
-        product_dict = {"prod_Jduf0NBJjssJpL": 1}
-
         key = subscription["items"]["data"][0]["plan"]["product"]
-        subType = product_dict[key]
+        subType = Config.PRODUCT_DICT[key]
 
         # customer already exists at this point, so we're only modifying it.
         # If this is the first time, it only has a userId and stripeCustomerId
@@ -160,6 +154,7 @@ def add_payment_info():
             return current_user.to_dict()
 
     except Exception as e:
+        print(e)
         error = str(e)[str(e).index(":") + 1 :]
         print("-------errors-------", error)
         return {"errors": error}, 200
