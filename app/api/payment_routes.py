@@ -59,7 +59,7 @@ def create_customer():
                 metadata={"userId": form.data["userId"]},
             )
 
-            return stripe_customer
+            return stripe_customer.to_dict()
 
         # create customer if doesn't yet exist
         stripe_customer = stripe.Customer.create(
@@ -102,7 +102,8 @@ def add_payment_info():
             request.json["paymentMethodId"],
             customer=request.json["customerId"],
         )
-        # Set the default payment method on the customer
+        # Set the default payment method on the customer, will remove default
+        # status from previous payment method if one already exists
         stripe.Customer.modify(
             request.json["customerId"],
             invoice_settings={
@@ -110,21 +111,34 @@ def add_payment_info():
             },
         )
 
-        # Create the subscription
-        subscription = stripe.Subscription.create(
-            customer=request.json["customerId"],
-            items=[{"price": request.json["priceId"]}],
-            expand=["latest_invoice.payment_intent"],
+        # oncy create a subscription if a stripeSubId doesn't already exist
+        # or if sub is not active (really only need 2nd check because subStatus
+        # is empty if there isn't a subscription yet, just doing an extra test)
+        # otherwise just retrieve it
+        subscription = (
+            stripe.Subscription.create(
+                customer=request.json["customerId"],
+                items=[{"price": request.json["priceId"]}],
+                expand=["latest_invoice.payment_intent"],
+            )
+            if not current_user.customer.stripeSubId
+            or current_user.customer.subStatus != "active"
+            else stripe.Subscription.retrieve(current_user.customer.stripeSubId)
         )
 
         # I set this up in case I ever had more than one product, in order to
-        # dynamically store the subscription type. Right now there's only 1.
-        # make sure to update this in addition to priceID in Payment3.js if change subscription price
+        # dynamically store the subscription type. A subType of 1 is a basic
+        # monthly subscription and 0 (default) is free/none.
+        # Make sure to update this in addition to priceID in Payment3.js if
+        # change subscription price
         product_dict = {"prod_Jduf0NBJjssJpL": 1}
 
-        subType = product_dict[subscription["items"]["data"][0]["plan"]["product"]]
+        key = subscription["items"]["data"][0]["plan"]["product"]
+        subType = product_dict[key]
 
-        # modify customer if already exists
+        # customer already exists at this point, so we're only modifying it.
+        # If this is the first time, it only has a userId and stripeCustomerId
+        # at this point.
         customer_to_update = Customer.query.filter_by(
             userId=request.json["userId"]
         ).first()
