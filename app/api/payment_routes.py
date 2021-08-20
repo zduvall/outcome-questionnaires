@@ -154,7 +154,6 @@ def add_payment_info():
             return current_user.to_dict()
 
     except Exception as e:
-        print(e)
         error = str(e)[str(e).index(":") + 1 :]
         print("-------errors-------", error)
         return {"errors": error}, 200
