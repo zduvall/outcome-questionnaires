@@ -41,10 +41,10 @@ export default function Payments() {
   const [paymentMethod, setPaymentMethod] = useState('');
 
   useEffect(() => {
-    // If the number is missing from '/payments/update/', it will think we're on
-    // just '/payments/' and subPageId will be set to the 'update'. This also
-    // if something other than a number is in url after '/payments/update/'.
-    if (typeof subPageId !== 'number') {
+    // If the subPageId is missing from '/payments/update/subPageId', it will think we're on
+    // just '/payments/' and subPageId will be set to 'update'. This first check prevents that
+    // and anything other than just 1, 2, or 3.
+    if (!['1', '2', '3'].includes(subPageId)) {
       history.push(`${paymentURL}1`);
     }
     // redirect if already have subscription and are on wrong url
