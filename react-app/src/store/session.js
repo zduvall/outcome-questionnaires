@@ -35,60 +35,53 @@ export const loginUser = (email, password) => async (dispatch) => {
   return user;
 };
 
-export const signUpUser = (firstName, lastName, email, password) => async (
-  dispatch
-) => {
-  const res = await fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      password,
-    }),
-  });
+export const signUpUser =
+  (firstName, lastName, email, password) => async (dispatch) => {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
 
-  const user = await res.json();
+    const user = await res.json();
 
-  if (res.ok && !user.errors) {
-    dispatch(setUser(user));
-  }
-  return user;
-};
+    if (res.ok && !user.errors) {
+      dispatch(setUser(user));
+    }
+    return user;
+  };
 
-export const updateUser = (
-  firstName,
-  lastName,
-  email,
-  lic,
-  pxName,
-  phone
-) => async (dispatch) => {
-  const res = await fetch(`/api/auth/signup`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      lic,
-      pxName,
-      phone,
-    }),
-  });
+export const updateUser =
+  (firstName, lastName, email, lic, pxName, phone) => async (dispatch) => {
+    const res = await fetch(`/api/auth/signup`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        lic,
+        pxName,
+        phone,
+      }),
+    });
 
-  const user = await res.json();
+    const user = await res.json();
 
-  if (res.ok && !user.errors) {
-    dispatch(setUser(user));
-  }
-  return user;
-};
+    if (res.ok && !user.errors) {
+      dispatch(setUser(user));
+    }
+    return user;
+  };
 
 export const logoutUser = () => async (dispatch) => {
   await fetch('/api/auth/logout', {
@@ -124,40 +117,42 @@ export const deleteUser = (userId) => async (dispatch) => {
 };
 
 // add payment method onto the customer, and get updated customer onto user in redux store
-export const addPaymentMethod = (
-  customerId,
-  paymentMethodId,
-  priceId,
-  userId,
-  brand,
-  last4,
-  exp_month,
-  exp_year
-) => async (dispatch) => {
-  const res = await fetch(`/api/payments/create-subscription`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      customerId,
-      paymentMethodId,
-      priceId,
-      userId,
-      brand,
-      last4,
-      exp_month,
-      exp_year,
-    }),
-  });
+export const addPaymentMethod =
+  (
+    customerId,
+    paymentMethodId,
+    priceId,
+    userId,
+    brand,
+    last4,
+    exp_month,
+    exp_year
+  ) =>
+  async (dispatch) => {
+    const res = await fetch(`/api/payments/create-subscription`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerId,
+        paymentMethodId,
+        priceId,
+        userId,
+        brand,
+        last4,
+        exp_month,
+        exp_year,
+      }),
+    });
 
-  if (res.ok) {
-    const user = await res.json();
-    dispatch(setUser(user));
-  }
+    if (res.ok) {
+      const user = await res.json();
+      dispatch(setUser(user));
+    }
 
-  return 'done!';
-};
+    return 'done!';
+  };
 
 export const cancelSubscription = (userId, stripeSubId) => async (dispatch) => {
   const res = await fetch(`/api/payments/cancel-subscription`, {
