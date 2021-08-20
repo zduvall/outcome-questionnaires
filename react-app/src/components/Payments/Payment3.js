@@ -12,7 +12,7 @@ import { addPaymentMethod } from '../../store/session';
 // import context
 import { usePaymentsContext } from '../../pages/Payments';
 
-export default function Payment1() {
+export default function Payment3() {
   const history = useHistory();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -94,7 +94,11 @@ export default function Payment1() {
             disabled={isProcessing || errors.length}
             onClick={handleSubscribe}
           >
-            {isProcessing && !errors.length ? 'Processing...' : paymentURL === '/payments/' ? 'Subscribe' : 'Update'}
+            {isProcessing && !errors.length
+              ? 'Processing...'
+              : paymentURL === '/payments/'
+              ? 'Subscribe'
+              : 'Update'}
           </button>
           <button
             className='secondary-button form__button dashboard__button'
