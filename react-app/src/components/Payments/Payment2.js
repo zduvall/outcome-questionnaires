@@ -11,7 +11,7 @@ import { usePaymentsContext } from '../../pages/Payments';
 // stripe imports
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-export default function Payment1() {
+export default function Payment2() {
   const history = useHistory();
   const { billingInfo, setPaymentMethod, paymentURL } = usePaymentsContext();
 
@@ -40,7 +40,7 @@ export default function Payment1() {
 
       if (!paymentMethodRes.error) {
         setPaymentMethod(paymentMethodRes.paymentMethod);
-        history.push(`${paymentURL}3`); // got to appropriate page between '/payments/3' & '/payments/update/3'
+        history.push(`${paymentURL}3`); // go to appropriate page between '/payments/3' & '/payments/update/3'
       } else {
         setProcessingTo(false);
         setErrors([paymentMethodRes.error.message]);
@@ -52,7 +52,7 @@ export default function Payment1() {
   }
 
   useEffect(() => {
-    if (!billingInfo) history.push(`${paymentURL}1`); // got to appropriate page between '/payments/1' & '/payments/update/1'
+    if (!billingInfo) history.push(`${paymentURL}1`); // go to appropriate page between '/payments/1' & '/payments/update/1'
   }, [billingInfo, history, paymentURL]);
 
   const cardElementOptions = {
