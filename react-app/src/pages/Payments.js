@@ -58,12 +58,7 @@ export default function Payments() {
   }, [sessionUser, paymentURL, history, subPageId]);
 
   // --------------------------------------------------------------------------------------------
-  // next thing to do is make sure that when I'm on the route 'payments/update/:subPageId" I'm not
-  // creating a second subscription for the same product on the same customer -- that's what it does
-  // right now. Maybe I should do it by passing another variable to the API and changing how my
-  // "/create-subscription" route works, so it updates if needed instead of creates? I could also
-  // maybe rename it, to "/create-subscription-or-update-billing" (or something like that)
-  // I also still need to make sure I'm rendering account details for billing properly when a payment
+  // Next thing to work on: make sure I'm rendering account details for billing properly when a payment
   // fails -- let them know they have 30 days to fix it (and then make sure stripe bills correctly
   // when they do fix it)
   // https://stripe.com/docs/api/subscriptions/object

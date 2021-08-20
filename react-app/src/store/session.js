@@ -117,6 +117,7 @@ export const deleteUser = (userId) => async (dispatch) => {
 };
 
 // add payment method onto the customer, and get updated customer onto user in redux store
+// if there's already an active subscription, this updates the default payment method
 export const addPaymentMethod =
   (
     customerId,
