@@ -90,7 +90,7 @@ def create_customer():
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
-@payment_routes.route("/create-subscription", methods=["POST"])
+@payment_routes.route("/subscription", methods=["POST"])
 @login_required
 def add_payment_info():
     """

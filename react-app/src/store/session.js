@@ -130,7 +130,7 @@ export const addPaymentMethod =
     exp_year
   ) =>
   async (dispatch) => {
-    const res = await fetch(`/api/payments/create-subscription`, {
+    const res = await fetch(`/api/payments/subscription`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
