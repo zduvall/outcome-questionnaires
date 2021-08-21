@@ -13,11 +13,12 @@ const BGQ = {
   score:
     'The BGQ scale ranges from 0 to 2, with 0 = “Not at all”, 1 = “Somewhat”, and 2 = “A lot”, with a max score of 10',
   interpretation:
-    'A score of 5 or more may be suggestive of the presence of complicated grief; however, a full evaluation by a clinician is necessary to make this diagnosis.',
+    'A score of 4 - 5 or higher may be suggestive of the presence of complicated grief; however, a full evaluation by a clinician is necessary to make this diagnosis.',
   selfAdmin: true,
   minMinutes: 1,
   maxMinutes: 3,
-  attribution: 'Dr Katherine Shear, Dr Susan Essock',
+  attribution:
+    'Dr Katherine Shear, Dr Susan Essock; included with permission by author',
   chartData: {
     datapoints: (tests) => {
       const points = [];
