@@ -166,11 +166,12 @@ export const cancelSubscription = (userId, stripeSubId) => async (dispatch) => {
       stripeSubId,
     }),
   });
-
+  const user = await res.json();
   if (res.ok) {
-    const user = await res.json();
     dispatch(setUser(user));
   }
+  // will either be a good user object, or an object with a key of errors (if res is not ok)
+  return user;
 };
 
 export const updateBillDateAndStatus = (stripeSubId) => async (dispatch) => {
