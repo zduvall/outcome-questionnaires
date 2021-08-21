@@ -1,5 +1,5 @@
 // This is the component to gather customer information.
-// It creates or updates the customer in stripe and database via the api call. 
+// It creates or updates the customer in stripe and database via the api call.
 // Nothing yet updated in redux.
 
 import { useState } from 'react';
@@ -46,7 +46,7 @@ export default function Payment1() {
       userId: sessionUser.id,
     };
 
-    const res = await fetch('/api/payments/create-customer', {
+    const res = await fetch('/api/payments/customer', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

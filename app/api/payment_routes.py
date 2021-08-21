@@ -30,7 +30,7 @@ payment_routes = Blueprint("payments", __name__)
 #     return jsonify(stripe.api_key)
 
 
-@payment_routes.route("/create-customer", methods=["POST"])
+@payment_routes.route("/customer", methods=["POST"])
 @login_required
 def create_customer():
     """
