@@ -157,7 +157,7 @@ def add_payment_info():
     except Exception as e:
         error = str(e)[str(e).index(":") + 1 :]
         print("-------errors-------", error)
-        return {"errors": error}, 200
+        return {"errors": error}, 500
 
 
 @payment_routes.route("/cancel-subscription", methods=["PUT"])
@@ -168,25 +168,26 @@ def cancel_subscription():
     """
     try:
         stripe.Subscription.delete(request.json["stripeSubId"])
-
-        user_w_cancelled_sub = User.query.get(request.json["userId"])
-        user_w_cancelled_sub.subType = 0
-
-        db.session.add(user_w_cancelled_sub)
-        db.session.commit()
-
-        return user_w_cancelled_sub.to_dict()
     except Exception as e:
+        print("-------errors-------", e)
         error = "Cancellation failed, please reach out to Zachary Duvall (see footer) with concerns"
-        print("-------errors-------", error)
-        return {"errors": error}, 200
+        return {"errors": error}, 500
+
+    user_w_cancelled_sub = User.query.get(request.json["userId"])
+    user_w_cancelled_sub.subType = 0
+    user_w_cancelled_sub.customer.subStatus = "canceled"
+
+    db.session.add(user_w_cancelled_sub)
+    db.session.commit()
+
+    return user_w_cancelled_sub.to_dict()
 
 
 @payment_routes.route("/get-bill-date-and-status/<path:stripeSubId>", methods=["GET"])
 @login_required
 def get_bill_date_and_status(stripeSubId):
     """
-    Get the next billing date and subscription status from stripe
+    Get the next billing date and current subscription status from stripe
     """
     subscription = stripe.Subscription.retrieve(stripeSubId)
 
