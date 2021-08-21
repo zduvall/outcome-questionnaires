@@ -94,7 +94,8 @@ def create_customer():
 @login_required
 def add_payment_info():
     """
-    Create subscription, add some of payment info to customer in DB
+    Create subscription (or just update default payment if sub already exists).
+    Add some of payment info to customer in DB.
     """
 
     try:
