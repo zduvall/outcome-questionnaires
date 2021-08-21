@@ -18,7 +18,7 @@ const BGQ = {
   minMinutes: 1,
   maxMinutes: 3,
   attribution:
-    'Dr Katherine Shear, Dr Susan Essock; included with permission by author',
+    'Dr Katherine Shear, Dr Susan Essock; included with permission by author', // I got permission in an email: https://mail.google.com/mail/u/1/#inbox/KtbxLvhCHsCWGWJrJlvsdFjCgrFWrQVljV
   chartData: {
     datapoints: (tests) => {
       const points = [];
