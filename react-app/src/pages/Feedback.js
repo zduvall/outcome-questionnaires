@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 
@@ -14,12 +15,14 @@ import '../components/Feedback/Feedback.css';
 export default function Unsubscribe() {
   const history = useHistory();
   const { pathname } = useLocation();
-
-  // if they get to '/unsubscribe' and aren't a subscribing user, go back
   const sessionUser = useSelector((state) => state.session.user);
-  if (pathname === '/unsubscribe' && !sessionUser.subType) {
-    history.goBack();
-  }
+
+  useEffect(() => {
+    // if they get to '/unsubscribe' and aren't a subscribing user, go back
+    if (pathname === '/unsubscribe' && !sessionUser.subType) {
+      history.goBack();
+    }
+  }, [history, pathname, sessionUser.subType]);
 
   const infoFromPath = {
     '/unsubscribe': {

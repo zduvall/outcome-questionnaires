@@ -105,7 +105,7 @@ export default function Payment3() {
             disabled={isProcessing}
             onClick={() => history.push(`${paymentURL}1`)} // got to appropriate page between '/payments/1' & '/payments/update/1'
           >
-            Restart
+            Start Over
           </button>
           <button
             className='delete-button form__button dashboard__button'

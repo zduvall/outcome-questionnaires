@@ -2,7 +2,7 @@
 // It creates or updates the customer in stripe and database via the api call.
 // Nothing yet updated in redux.
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -29,6 +29,17 @@ export default function Payment1() {
   const [zip, setZip] = useState('');
 
   const [isProcessing, setProcessingTo] = useState(false);
+
+  useEffect(() => {
+    // redirect if already have subscription and are on wrong url
+    if (sessionUser.subType && paymentURL === '/payments/') {
+      history.push('/payments/update/1');
+    }
+    // redirect if don't have subscription and are on wrong url
+    if (!sessionUser.subType && paymentURL === '/payments/update/') {
+      history.push('/payments/1');
+    }
+  }, [sessionUser.subType, history, paymentURL]);
 
   async function onSubmit(e) {
     e.preventDefault();

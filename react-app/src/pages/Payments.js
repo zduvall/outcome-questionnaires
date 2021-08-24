@@ -47,10 +47,6 @@ export default function Payments() {
     if (!['1', '2', '3'].includes(subPageId)) {
       history.push(`${paymentURL}1`);
     }
-    // redirect if already have subscription and are on wrong url
-    if (sessionUser.subType && paymentURL === '/payments/') {
-      history.push('/payments/update/1');
-    }
     // redirect to account page if in production (change that later)
     if (process.env.NODE_ENV === 'production') {
       history.push('/account');
